@@ -110,9 +110,7 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
       }
     } else if (call.method.equals("TEST_refreshPlace_foreground")) {
       try {
-        Plengi.getInstance(mContext).TEST_refreshPlace_foreground();
-        result.success("");
-        /*Plengi.getInstance(mContext).TEST_refreshPlace_foreground(new OnPlengiListener() {
+        Plengi.getInstance(mContext).TEST_refreshPlace_foreground(new OnPlengiListener() {
           @Override
           public void onSuccess(PlengiResponse response) {
             result.success(new Gson().toJson(response));
@@ -122,11 +120,11 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
           public void onFail(PlengiResponse response) {
             result.success(new Gson().toJson(response));
           }
-        });*/
+        });
       } catch (Exception ex) {
         result.error("1", ex.getMessage(), ex.getStackTrace());
       }
-    } else if(call.method.equals("PlengiListener.start")) {
+    } else if(call.method.equals("LoplatPlengiListener.start")) {
       ArrayList arguments = (ArrayList) call.arguments;
       // This message is sent when the Dart side of this plugin is told to initialize.
       long callbackHandle = (long) arguments.get(0);

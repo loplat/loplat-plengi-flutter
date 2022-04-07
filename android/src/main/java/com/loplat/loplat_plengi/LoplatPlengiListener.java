@@ -1,33 +1,34 @@
-package com.loplat.loplat_plengi_example;
+package com.loplat.loplat_plengi;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.loplat.loplat_plengi.FlutterBackgroundExecutor;
-import com.loplat.placeengine.PlengiListener;
 import com.loplat.placeengine.PlengiResponse;
-import com.loplat.placeengine.utils.LoplatLogger;
 
 /**
  * Created by sebastian song on 20. 5. 13.
  */
-public class ModePlengiListener implements PlengiListener {
-    private static final String TAG = ModePlengiListener.class.getSimpleName();
+public class LoplatPlengiListener implements com.loplat.placeengine.PlengiListener {
+    private static final String TAG = LoplatPlengiListener.class.getSimpleName();
+    private Context mContext;
+    public LoplatPlengiListener(Context context) {
+        mContext = context;
+    }
 
     @Override
     public void listen(PlengiResponse response) {
-        Log.i(TAG, "ModePlengiListener: " + response.type);
-        Context context = PlengiApplication.getContext();
-        String description;
+        Log.i(TAG, "LoplatPlengiListener: " + response.type);
+        Context context = mContext;
+        /*String description;
         Intent i = new Intent();
         i.setPackage(context.getPackageName());
         if(response.result < PlengiResponse.Result.SUCCESS) {
             description = getFailResponseToDescription(context, response);
         } else {
             description = getResponseToDescription(context, response);
-        }
+        }*/
         //int msg = 1809;
         //FlutterBackgroundExecutor.getInstance().forwardMessageToFlutter(context, msg);
         FlutterBackgroundExecutor.getInstance().forwardMessageToFlutter(context, new Gson().toJson(response));

@@ -1,17 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
-import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:loplat_plengi/loplat_plengi.dart';
-import 'package:device_info/device_info.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// The name associated with the UI isolate's [SendPort].
 const String isolateName = 'isolate';
@@ -19,15 +16,66 @@ const String isolateName = 'isolate';
 /// A port used to communicate from a background isolate to the UI isolate.
 final ReceivePort port = ReceivePort();
 
+/// The background port
+SendPort? uiSendPort;
+
+/// The callback for loplat plengi
+Future<bool> callback(String msg) async {
+  String locationInfo = getLocationInfo(msg);
+  print('result: $locationInfo');
+
+  // This will be null if we're running in the background.
+  uiSendPort ??= IsolateNameServer.lookupPortByName(isolateName);
+  uiSendPort?.send(null);
+  return true;
+}
+
+String getLocationInfo(String log) {
+  if (log == null || log.isEmpty) {
+    return '';
+  }
+  Map<String,dynamic> jsonData = jsonDecode(log);
+  String inNear = '';
+  String locationInfo = '';
+  if (jsonData['place'] != null) {
+    if (jsonData['place']['accuracy'] >= jsonData['place']['threshold']) {
+      inNear = '[IN]';
+    } else {
+      inNear = '[NEAR]';
+    }
+    locationInfo += '  $inNear${jsonData['place']['name']},'
+        '${jsonData['place']['tags']}(${jsonData['place']['loplat_id']}),'
+        '${jsonData['place']['floor']}F,${jsonData['place']['accuracy']}/${jsonData['place']['threshold']}';
+  }
+  if (jsonData['complex'] != null) {
+    locationInfo += '\n  [${jsonData['complex']['id']}]${jsonData['complex']['name']}';
+  }
+  if (jsonData['area'] != null) {
+    locationInfo += '\n  [${jsonData['area']['id']}]${jsonData['area']['tag']},${jsonData['area']['name']}';
+  }
+  if (jsonData['district'] != null) {
+    locationInfo += '\n  ${jsonData['district']['lv1_name']} ${jsonData['district']['lv2_name']} ${jsonData['district']['lv3_name']}';
+  }
+  if (jsonData['location'] != null) {
+    locationInfo += '\n  ${jsonData['location']['lat']}, ${jsonData['location']['lng']}';
+  }
+  if (jsonData['ad'] != null) {
+    locationInfo += '\n  ${jsonData['ad']['campaign_id']}, ${jsonData['ad']['title']}, ${jsonData['ad']['body']}';
+  }
+  return locationInfo;
+}
+
 Future<void> main() async {
-  // Register the UI isolate's SendPort to allow for communication from the
-  // background isolate.
+  /// Register the UI isolate's SendPort to allow for communication from the background isolate.
   IsolateNameServer.registerPortWithName(
     port.sendPort,
     isolateName,
   );
 
   runApp(const MyApp());
+
+  /// After runApp, register callback
+  LoplatPlengiPlugin.setListener(callback);
 }
 
 class MyApp extends StatefulWidget {
@@ -42,60 +90,11 @@ class _MyAppState extends State<MyApp> {
   String _plengiStatus = "NOT_INITIALIZED";
   String _loplatResults = '';
   var getLocationButEnabled = true;
-  // The background
-  static SendPort? uiSendPort;
 
   @override
   void initState() {
     super.initState();
-    LoplatPlengiPlugin.setListener(callback);
     initPlatformState();
-  }
-
-  // The callback for our alarm
-  static Future<bool> callback(String msg) async {
-    String locationInfo = getLocationInfo(msg);
-    print('result: $locationInfo');
-
-    // This will be null if we're running in the background.
-    uiSendPort ??= IsolateNameServer.lookupPortByName(isolateName);
-    uiSendPort?.send(null);
-    return true;
-  }
-
-  static String getLocationInfo(String log) {
-    if (log == null || log.isEmpty) {
-      return '';
-    }
-    Map<String,dynamic> jsonData = jsonDecode(log);
-    String inNear = '';
-    String locationInfo = '';
-    if (jsonData['place'] != null) {
-      if (jsonData['place']['accuracy'] >= jsonData['place']['threshold']) {
-        inNear = '[IN]';
-      } else {
-        inNear = '[NEAR]';
-      }
-      locationInfo += '  $inNear${jsonData['place']['name']},'
-          '${jsonData['place']['tags']}(${jsonData['place']['loplat_id']}),'
-          '${jsonData['place']['floor']}F,${jsonData['place']['accuracy']}/${jsonData['place']['threshold']}';
-    }
-    if (jsonData['complex'] != null) {
-      locationInfo += '\n  [${jsonData['complex']['id']}]${jsonData['complex']['name']}';
-    }
-    if (jsonData['area'] != null) {
-      locationInfo += '\n  [${jsonData['area']['id']}]${jsonData['area']['tag']},${jsonData['area']['name']}';
-    }
-    if (jsonData['district'] != null) {
-      locationInfo += '\n  ${jsonData['district']['lv1_name']} ${jsonData['district']['lv2_name']} ${jsonData['district']['lv3_name']}';
-    }
-    if (jsonData['location'] != null) {
-      locationInfo += '\n  ${jsonData['location']['lat']}, ${jsonData['location']['lng']}';
-    }
-    if (jsonData['ad'] != null) {
-      locationInfo += '\n  ${jsonData['ad']['campaign_id']}, ${jsonData['ad']['title']}, ${jsonData['ad']['body']}';
-    }
-    return locationInfo;
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -190,9 +189,9 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                   child: const Text('Get Location'),
                   onPressed: getLocationButEnabled? () {
-                    /*setState(() {
+                    setState(() {
                       getLocationButEnabled = false;
-                    });*/
+                    });
                     Timer _timer = Timer(const Duration(seconds: 8), () {
                       setState(() {
                         if (!getLocationButEnabled) {

@@ -58,8 +58,7 @@ void _plengiCallbackDispatcher() {
 typedef _GetCallbackHandle = CallbackHandle? Function(Function callback);
 
 class LoplatPlengiPlugin {
-  static const MethodChannel _channel =
-      MethodChannel('loplat_plengi');
+  static const MethodChannel _channel = MethodChannel('loplat_plengi');
 
   // Callback used to get the handle for a callback. It's
   // [PluginUtilities.getCallbackHandle] by default.
@@ -82,7 +81,7 @@ class LoplatPlengiPlugin {
     if (handle == null) {
       return false;
     }
-    final status = await _channel.invokeMethod<bool>('PlengiListener.start', [handle.toRawHandle()]);
+    final status = await _channel.invokeMethod<bool>('LoplatPlengiListener.start', [handle.toRawHandle()]);
     return status ?? false;
   }
 

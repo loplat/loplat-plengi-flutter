@@ -179,7 +179,7 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
             return;
         }
 
-        Log.e(TAG, "Starting PlengiListener...");
+        Log.e(TAG, "Starting LoplatPlengiListener...");
         if (!isRunning()) {
             backgroundFlutterEngine = new FlutterEngine(context);
 

@@ -1,3 +1,7 @@
+## 1.0.2
+
+* fix some bugs
+
 ## 1.0.1
 
 * Support flutter background listener
