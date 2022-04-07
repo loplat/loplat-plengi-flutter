@@ -1,6 +1,7 @@
 package com.loplat.loplat_plengi;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 
 /** LoplatPlengiPlugin */
 public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
+  private static final String TAG = LoplatPlengiPlugin.class.getSimpleName();
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -32,6 +34,13 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
     mContext = flutterPluginBinding.getApplicationContext();
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "loplat_plengi");
     channel.setMethodCallHandler(this);
+  }
+
+  @Override
+  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    channel.setMethodCallHandler(null);
+    channel = null;
+    mContext = null;
   }
 
   @Override
@@ -101,7 +110,9 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
       }
     } else if (call.method.equals("TEST_refreshPlace_foreground")) {
       try {
-        Plengi.getInstance(mContext).TEST_refreshPlace_foreground(new OnPlengiListener() {
+        Plengi.getInstance(mContext).TEST_refreshPlace_foreground();
+        result.success("");
+        /*Plengi.getInstance(mContext).TEST_refreshPlace_foreground(new OnPlengiListener() {
           @Override
           public void onSuccess(PlengiResponse response) {
             result.success(new Gson().toJson(response));
@@ -111,17 +122,31 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
           public void onFail(PlengiResponse response) {
             result.success(new Gson().toJson(response));
           }
-        });
+        });*/
       } catch (Exception ex) {
         result.error("1", ex.getMessage(), ex.getStackTrace());
       }
+    } else if(call.method.equals("PlengiListener.start")) {
+      ArrayList arguments = (ArrayList) call.arguments;
+      // This message is sent when the Dart side of this plugin is told to initialize.
+      long callbackHandle = (long) arguments.get(0);
+      // In response, this (native) side of the plugin needs to spin up a background
+      // Dart isolate by using the given callbackHandle, and then setup a background
+      // method channel to communicate with the new background isolate. Once completed,
+      // this onMethodCall() method will receive messages from both the primary and background
+      // method channels.
+      FlutterBackgroundExecutor flutterBackgroundExecutor = FlutterBackgroundExecutor.getInstance();
+      flutterBackgroundExecutor.setCallbackDispatcher(mContext, callbackHandle);
+      flutterBackgroundExecutor.startBackgroundIsolate(mContext, callbackHandle);
+      result.success(true);
+    } else if (call.method.equals("setListener")) {
+      ArrayList arguments = (ArrayList) call.arguments;
+      long callbackHandle = (long) arguments.get(0);
+      FlutterBackgroundExecutor flutterBackgroundExecutor = FlutterBackgroundExecutor.getInstance();
+      flutterBackgroundExecutor.setListenerCallback(mContext, callbackHandle);
+      result.success(true);
     } else {
       result.notImplemented();
     }
-  }
-
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
   }
 }
