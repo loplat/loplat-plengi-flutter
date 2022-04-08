@@ -31,7 +31,7 @@ Future<bool> callback(String msg) async {
 }
 
 String getLocationInfo(String log) {
-  if (log == null || log.isEmpty) {
+  if (log.isEmpty) {
     return '';
   }
   Map<String,dynamic> jsonData = jsonDecode(log);
@@ -149,15 +149,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   updateLog(String log) {
-    if (log == null || log.isEmpty) {
+    if (log.isEmpty) {
       return;
     }
     String locationInfo = getLocationInfo(log);
-    String formattedDate = DateFormat('MM-dd HH:mm:ss').format(DateTime.now());
-    setState(() {
-      _loplatResults = '$formattedDate\n$locationInfo\n\n$_loplatResults';
-      getLocationButEnabled = true;
-    });
+    if (locationInfo.isNotEmpty) {
+      String formattedDate = DateFormat('MM-dd HH:mm:ss').format(
+          DateTime.now());
+      setState(() {
+        _loplatResults = '$formattedDate\n$locationInfo\n\n$_loplatResults';
+        getLocationButEnabled = true;
+      });
+    }
   }
 
   @override
@@ -225,6 +228,9 @@ class _MyAppState extends State<MyApp> {
 
   Future<String?> _getCurrentPlace() async {
     String? res = await LoplatPlengiPlugin.testRefreshPlaceForeground();
+    if (res == null || res.isEmpty) {
+      return '응답 결과가 없습니다';
+    }
     return res;
   }
 }

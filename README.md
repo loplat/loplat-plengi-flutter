@@ -15,7 +15,7 @@ To use this plugin, add `loplat_plengi` as a [dependency in your pubspec.yaml fi
 ### Examples
 Here are small examples that show you how to use the API.
 
-#### Recieve location data
+#### Receive location data
 To see detail location data, please visit [loplat developer site](https://developers.loplat.com/android/#_2).
 ```dart
 import 'dart:isolate';
@@ -44,7 +44,7 @@ Future<bool> callback(String msg) async {
 }
 
 String getLocationInfo(String log) {
-  if (log == null || log.isEmpty) {
+  if (log.isEmpty) {
     return '';
   }
   Map<String,dynamic> jsonData = jsonDecode(log);

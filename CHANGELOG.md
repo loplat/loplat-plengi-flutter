@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Support automatic callback registration on Android
+
 ## 1.0.2
 
 * fix some bugs

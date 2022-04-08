@@ -1,7 +1,7 @@
 package com.loplat.loplat_plengi;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
@@ -145,6 +145,29 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
       result.success(true);
     } else {
       result.notImplemented();
+    }
+  }
+
+  /**
+   * PlengiPluginInitProvider onCreate 에서 호출
+   * plengi flutter plugin 에서 setListener 에 대한 callback 을 자동으로 설정해준다
+   * @param context application context
+   */
+  public static void setupPlengiCallback(Context context) {
+    Plengi plengi = Plengi.getInstance(context);
+    plengi.setListener(new LoplatPlengiListener(context));
+
+    /**
+     * 앱 설치 후 최초 시작시 3초 delay 를 주는 이유는  Background channel 을 만들고
+     * Flutter 단에서 callback handler 값이 native 단에 전달되어 저장되기까지 시간이 걸린다.
+     * 한번 저장된 이후로는 delay 가 없기 때문에 문제 없다.
+     */
+    FlutterBackgroundExecutor flutterBackgroundExecutor = FlutterBackgroundExecutor.getInstance();
+    long handle = flutterBackgroundExecutor.getBgChannelCallbackHandle(context);
+    if (handle != 0) {
+      FlutterBackgroundExecutor.getInstance().startBackgroundIsolate(context);
+    } else {
+      new Handler().postDelayed(() -> FlutterBackgroundExecutor.getInstance().startBackgroundIsolate(context), 3000);
     }
   }
 }

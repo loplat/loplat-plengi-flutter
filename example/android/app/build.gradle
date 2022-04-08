@@ -48,13 +48,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
-    dependencies {
-        implementation 'com.loplat:placeengine:2.1.1.2'
-        implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-        implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-        implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    }
 }
 
 flutter {

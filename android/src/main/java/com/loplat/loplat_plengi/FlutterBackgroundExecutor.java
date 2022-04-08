@@ -1,26 +1,23 @@
 package com.loplat.loplat_plengi;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.util.Log;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.dart.DartExecutor.DartCallback;
-import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.JSONMethodCodec;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 import io.flutter.view.FlutterCallbackInformation;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An background execution abstraction which handles initializing a background isolate running a
@@ -31,7 +28,6 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
     private static final String BG_CHANNEL_CALLBACK_HANDLE_KEY = "callback_handle";
     private static final String LISTENER_CALLBACK_HANDLE_KEY = "listener_callback_handle";
     private static final String SHARED_PREFERENCES_KEY = "com.loplat.plengi.background";
-    private static PluginRegistrantCallback pluginRegistrantCallback;
 
     private static FlutterBackgroundExecutor mFlutterBackgroundExecutor;
 
@@ -52,26 +48,6 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
 
     private final AtomicBoolean isCallbackDispatcherReady = new AtomicBoolean(false);
 
-    /**
-     * Sets the {@code PluginRegistrantCallback} used to register plugins with the newly spawned
-     * isolate.
-     *
-     * <p>Note: this is only necessary for applications using the V1 engine embedding API as plugins
-     * are automatically registered via reflection in the V2 engine embedding API. If not set, alarm
-     * callbacks will not be able to utilize functionality from other plugins.
-     */
-    public static void setPluginRegistrant(PluginRegistrantCallback callback) {
-        pluginRegistrantCallback = callback;
-    }
-
-    class PluginRegistrantException extends RuntimeException {
-        public PluginRegistrantException() {
-            super(
-                    "PluginRegistrantCallback is not set. Did you forget to call "
-                            + "AlarmService.setPluginRegistrant? See the README for instructions.");
-        }
-    }
-
 
     /**
      * Sets the Dart callback handle for the Dart method that is responsible for initializing the
@@ -88,14 +64,13 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
     }
 
 
-    /** Returns true when the background isolate has started and is ready to handle alarms. */
+    /** Returns true when the background isolate has started and is ready to handle plengi callback. */
     public boolean isRunning() {
         return isCallbackDispatcherReady.get();
     }
 
     private void onInitialized() {
         isCallbackDispatcherReady.set(true);
-        //AlarmService.onInitialized();
     }
 
     @Override
@@ -110,12 +85,11 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
                 // the Dart methods corresponding to those callback handles.
                 onInitialized();
                 result.success(true);
-                Log.e(TAG, "plengi.initialize success");
             } else {
                 result.notImplemented();
             }
-        } catch (PluginRegistrantException e) {
-            result.error("error", "AlarmManager error: " + e.getMessage(), null);
+        } catch (Exception e) {
+            result.error("error", e.getMessage(), null);
         }
     }
 
@@ -137,15 +111,11 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
      * <ul>
      *   <li>The given callback must correspond to a registered Dart callback. If the handle does not
      *       resolve to a Dart callback then this method does nothing.
-     *   <li>A static {@link #pluginRegistrantCallback} must exist, otherwise a {@link
-     *       PluginRegistrantException} will be thrown.
      * </ul>
      */
     public void startBackgroundIsolate(Context context) {
-        //if (!isRunning()) {
-            long callbackHandle = getBgChannelCallbackHandle(context);
-            startBackgroundIsolate(context, callbackHandle);
-        //}
+        long callbackHandle = getBgChannelCallbackHandle(context);
+        startBackgroundIsolate(context, callbackHandle);
     }
 
     public long getBgChannelCallbackHandle(Context context) {
@@ -169,17 +139,14 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
      * <ul>
      *   <li>The given {@code callbackHandle} must correspond to a registered Dart callback. If the
      *       handle does not resolve to a Dart callback then this method does nothing.
-     *   <li>A static {@link #pluginRegistrantCallback} must exist, otherwise a {@link
-     *       PluginRegistrantException} will be thrown.
      * </ul>
      */
     public void startBackgroundIsolate(Context context, long callbackHandle) {
         if (backgroundFlutterEngine != null) {
-            Log.e(TAG, "Background isolate already started");
+            Log.i(TAG, "Background isolate already started");
             return;
         }
 
-        Log.e(TAG, "Starting LoplatPlengiListener...");
         if (!isRunning()) {
             backgroundFlutterEngine = new FlutterEngine(context);
 
@@ -195,7 +162,7 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
                 Log.e(TAG, "Fatal: failed to find callback : " + callbackHandle);
                 return;
             } else {
-                Log.e(TAG, "Found callback : " + callbackHandle);
+                Log.i(TAG, "Found callback : " + callbackHandle);
             }
 
             DartExecutor executor = backgroundFlutterEngine.getDartExecutor();
@@ -203,67 +170,15 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
             DartCallback dartCallback = new DartCallback(assets, appBundlePath, flutterCallback);
 
             executor.executeDartCallback(dartCallback);
-
-            // The pluginRegistrantCallback should only be set in the V1 embedding as
-            // plugin registration is done via reflection in the V2 embedding.
-            if (pluginRegistrantCallback != null) {
-                pluginRegistrantCallback.registerWith(new ShimPluginRegistry(backgroundFlutterEngine));
-            }
         }
-    }
-
-    /**
-     * Executes the desired Dart callback in a background Dart isolate.
-     *
-     * <p>The given {@code intent} should contain a {@code long} extra called "callbackHandle", which
-     * corresponds to a callback registered with the Dart VM.
-     */
-    public void executeDartCallbackInBackgroundIsolate(Intent intent, final CountDownLatch latch) {
-        // Grab the handle for the callback associated with this alarm. Pay close
-        // attention to the type of the callback handle as storing this value in a
-        // variable of the wrong size will cause the callback lookup to fail.
-        long callbackHandle = intent.getLongExtra("callbackHandle", 0);
-
-        // If another thread is waiting, then wake that thread when the callback returns a result.
-        MethodChannel.Result result = null;
-        if (latch != null) {
-            result =
-                    new MethodChannel.Result() {
-                        @Override
-                        public void success(Object result) {
-                            latch.countDown();
-                        }
-
-                        @Override
-                        public void error(String errorCode, String errorMessage, Object errorDetails) {
-                            latch.countDown();
-                        }
-
-                        @Override
-                        public void notImplemented() {
-                            latch.countDown();
-                        }
-                    };
-        }
-
-        // Handle the alarm event in Dart. Note that for this plugin, we don't
-        // care about the method name as we simply lookup and invoke the callback
-        // provided.
-        backgroundChannel.invokeMethod(
-                "invokeAlarmManagerCallback",
-                new Object[] {callbackHandle, intent.getIntExtra("id", -1)},
-                result);
     }
 
     public void forwardMessageToFlutter(Context context, String msg) {
-        //if (!isRunning()) {
-        Log.i(TAG, "start");
-
         MethodChannel.Result result =
                 new MethodChannel.Result() {
                     @Override
                     public void success(Object result) {
-                        Log.e(TAG, "success");
+                        Log.i(TAG, "success");
                     }
 
                     @Override
@@ -277,14 +192,12 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
                     }
                 };
 
-            SharedPreferences p = context.getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
-            long callbackHandle = p.getLong(LISTENER_CALLBACK_HANDLE_KEY, 0);
-            backgroundChannel.invokeMethod(
-                    "invokeSetListenerCallback",
-                    new Object[] {callbackHandle, msg},
-                    result);
-        Log.i(TAG, "" + msg);
-        //}
+        SharedPreferences p = context.getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
+        long callbackHandle = p.getLong(LISTENER_CALLBACK_HANDLE_KEY, 0);
+        backgroundChannel.invokeMethod(
+                "invokeSetListenerCallback",
+                new Object[] {callbackHandle, msg},
+                result);
     }
 
     private void initializeMethodChannel(BinaryMessenger isolate) {

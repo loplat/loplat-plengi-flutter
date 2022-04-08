@@ -1,3 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.loplat.loplat_plengi">
+    <application>
+        <provider
+            android:name=".provider.PlengiPluginInitProvider"
+            android:authorities="${applicationId}.PlengiPluginInitProvider"
+            android:exported="false" />
+    </application>
 </manifest>
