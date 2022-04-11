@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Fix app crash on first run
+
 ## 1.0.3
 
 * Support automatic callback registration on Android

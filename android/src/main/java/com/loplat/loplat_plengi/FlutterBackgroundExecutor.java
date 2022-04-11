@@ -174,30 +174,33 @@ public class FlutterBackgroundExecutor implements MethodCallHandler {
     }
 
     public void forwardMessageToFlutter(Context context, String msg) {
-        MethodChannel.Result result =
-                new MethodChannel.Result() {
-                    @Override
-                    public void success(Object result) {
-                        Log.i(TAG, "success");
-                    }
-
-                    @Override
-                    public void error(String errorCode, String errorMessage, Object errorDetails) {
-                        Log.e(TAG, "error");
-                    }
-
-                    @Override
-                    public void notImplemented() {
-                        Log.e(TAG, "notImplemented");
-                    }
-                };
-
         SharedPreferences p = context.getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
         long callbackHandle = p.getLong(LISTENER_CALLBACK_HANDLE_KEY, 0);
-        backgroundChannel.invokeMethod(
-                "invokeSetListenerCallback",
-                new Object[] {callbackHandle, msg},
-                result);
+        if (backgroundChannel != null && callbackHandle != 0) {
+            MethodChannel.Result result =
+                    new MethodChannel.Result() {
+                        @Override
+                        public void success(Object result) {
+                            Log.i(TAG, "success");
+                        }
+
+                        @Override
+                        public void error(String errorCode, String errorMessage, Object errorDetails) {
+                            Log.e(TAG, "error");
+                        }
+
+                        @Override
+                        public void notImplemented() {
+                            Log.e(TAG, "notImplemented");
+                        }
+                    };
+            backgroundChannel.invokeMethod(
+                    "invokeSetListenerCallback",
+                    new Object[]{callbackHandle, msg},
+                    result);
+        } else {
+            Log.e(TAG, "cannot forwardMessageToFlutter");
+        }
     }
 
     private void initializeMethodChannel(BinaryMessenger isolate) {
