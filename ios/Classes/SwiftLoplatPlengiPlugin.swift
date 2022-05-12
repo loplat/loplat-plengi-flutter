@@ -46,23 +46,3 @@ public class SwiftLoplatPlengiPlugin: NSObject, FlutterPlugin {
       }
   }
 }
-
- //else if (call.method.equals("TEST_refreshPlace_foreground")) {
-//      try {
-//        Plengi.getInstance(mContext).TEST_refreshPlace_foreground(new OnPlengiListener() {
-//          @Override
-//          public void onSuccess(PlengiResponse response) {
-//            result.success(new Gson().toJson(response));
-//          }
-//
-//          @Override
-//          public void onFail(PlengiResponse response) {
-//            result.success(new Gson().toJson(response));
-//          }
-//        });
-//      } catch (Exception ex) {
-//        result.error("1", ex.getMessage(), ex.getStackTrace());
-//      }
-//    } else {
-//      result.notImplemented();
-//    }

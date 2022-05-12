@@ -20,6 +20,11 @@ public class LoplatPlengiListener implements com.loplat.placeengine.PlengiListen
     public void listen(PlengiResponse response) {
         Log.i(TAG, "LoplatPlengiListener: " + response.type);
         Context context = mContext;
-        FlutterBackgroundExecutor.getInstance().forwardMessageToFlutter(context, new Gson().toJson(response));
+        try {
+            String jsonStr = new Gson().toJson(response);
+            FlutterBackgroundExecutor.getInstance().forwardMessageToFlutter(context, jsonStr);
+        } catch (Exception ignored) {
+            Log.e(TAG, ignored.toString());
+        }
     }
 }
