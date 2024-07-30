@@ -1,23 +1,29 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loplat_plengi/loplat_plengi.dart';
+import 'package:loplat_plengi/loplat_plengi_platform_interface.dart';
+import 'package:loplat_plengi/loplat_plengi_method_channel.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+class MockLoplatPlengiPlatform
+    with MockPlatformInterfaceMixin
+    implements LoplatPlengiPlatform {
+
+  @override
+  Future<String?> getPlatformVersion() => Future.value('42');
+}
 
 void main() {
-  const MethodChannel channel = MethodChannel('loplat_plengi');
+  final LoplatPlengiPlatform initialPlatform = LoplatPlengiPlatform.instance;
 
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
-    });
-  });
-
-  tearDown(() {
-    channel.setMockMethodCallHandler(null);
+  test('$MethodChannelLoplatPlengi is the default instance', () {
+    expect(initialPlatform, isInstanceOf<MethodChannelLoplatPlengi>());
   });
 
   test('getPlatformVersion', () async {
-    expect(await LoplatPlengiPlugin.platformVersion, '42');
+    //LoplatPlengiPlugin loplatPlengiPlugin = LoplatPlengiPlugin();
+    MockLoplatPlengiPlatform fakePlatform = MockLoplatPlengiPlatform();
+    LoplatPlengiPlatform.instance = fakePlatform;
+
+    expect(await LoplatPlengiPlugin.getPlatformVersion, '42');
   });
 }

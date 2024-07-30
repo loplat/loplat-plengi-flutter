@@ -1,3 +1,15 @@
+## 1.0.8
+
+* Update loplat iOS plengi v1.5.5-rc1
+
+## 1.0.7
+
+* 안드로이드 프로가드 추가
+
+## 1.0.6
+
+* Update loplat AOS plengi v2.1.1.9.6
+
 ## 1.0.5
 
 * Update loplat AOS plengi v2.1.1.3.1
