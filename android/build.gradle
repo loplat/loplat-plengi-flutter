@@ -1,5 +1,5 @@
-group 'com.loplat.loplat_plengi'
-version '1.0'
+group = "com.loplat.loplat_plengi"
+version = "1.0"
 
 buildscript {
     repositories {
@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath("com.android.tools.build:gradle:7.3.0")
     }
 }
 
@@ -22,25 +22,41 @@ rootProject.allprojects {
     }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
 
 android {
-    compileSdkVersion 30
+    if (project.android.hasProperty("namespace")) {
+        namespace = "com.loplat.loplat_plengi"
+    }
+
+    compileSdk = 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdk = 21
     }
 
     dependencies {
-        implementation 'com.loplat:placeengine:2.1.1.3.1'
-        implementation 'com.google.android.gms:play-services-location:16.0.0'
-        implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-        implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-        implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+        testImplementation("junit:junit:4.13.2")
+        testImplementation("org.mockito:mockito-core:5.0.0")
+        implementation 'com.loplat:placeengine:2.1.1.9.6'
+        implementation 'com.google.android.gms:play-services-location:21.0.1'
+        implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+        implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+        implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
     }
 }

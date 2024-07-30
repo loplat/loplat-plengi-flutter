@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'loplat_plengi_platform_interface.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:io';
@@ -46,6 +45,7 @@ void _plengiCallbackDispatcher() {
       final String msg = args[1];
       closure(msg);
     }
+
     /// parameter 가 변경되면 추가
   });
 
@@ -66,11 +66,17 @@ class LoplatPlengiPlugin {
   static final _GetCallbackHandle _getCallbackHandle =
       (Function callback) => PluginUtilities.getCallbackHandle(callback);
 
-  static Future<String?> get platformVersion async {
+  static Future<String?> get getPlatformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 
+
+  /**
+   * Get Current Place Status: MOVE, STATIONARY, STAY.
+   *
+   * @return    Current Place Status: PlengiResponse.PlaceStatus
+   */
   static Future<int> get getEngineStatus async {
     final int status = await _channel.invokeMethod('getEngineStatus');
     return status;
@@ -81,7 +87,8 @@ class LoplatPlengiPlugin {
     if (handle == null) {
       return false;
     }
-    final status = await _channel.invokeMethod<bool>('LoplatPlengiListener.start', [handle.toRawHandle()]);
+    final status = await _channel.invokeMethod<bool>(
+        'LoplatPlengiListener.start', [handle.toRawHandle()]);
     return status ?? false;
   }
 
@@ -96,23 +103,46 @@ class LoplatPlengiPlugin {
     return status ?? false;
   }
 
+  /**
+   * Start Place Monitoring in background.
+   *
+   * see at the example code : getChangeResultToString()
+   * @return    result code (PlengiResponse.Result)
+   *
+   */
   static Future<int?> start(String id, String pw) async {
     final int? status = await _channel.invokeMethod('start', [id, pw]);
     return status;
   }
 
+  /**
+   * Stop Place Monitoring in background.
+   *
+   * see at the example code : getChangeResultToString()
+   * @return    result code (PlengiResponse.Result)
+   */
   static Future<int?> get stop async {
     final int? status = await _channel.invokeMethod('stop');
     return status;
   }
 
+  /**
+   * Set Plengi Echo Code
+   *
+   * @param     echo_code  communication code between a request and a response
+   */
   static Future<String?> setEchoCode(String code) async {
     final String? status = await _channel.invokeMethod('setEchoCode', [code]);
     return status;
   }
 
-  static Future<String?> enableAdNetwork(
-      bool enableAd, {bool enableAdNoti=true}) async {
+  /**
+   *  enable or disable Loplat ad network
+   *
+   * @param    enableAd  true: enable, false: disable
+   */
+  static Future<String?> enableAdNetwork(bool enableAd,
+      {bool enableAdNoti = true}) async {
     final String? status = await _channel
         .invokeMethod('enableAdNetwork', [enableAd, enableAdNoti]);
     return status;
@@ -120,7 +150,7 @@ class LoplatPlengiPlugin {
 
   static Future<String?> enableTestServer(bool value) async {
     final String? status =
-        await _channel.invokeMethod('enableTestServer', [value]);
+    await _channel.invokeMethod('enableTestServer', [value]);
     return status;
   }
 
@@ -129,14 +159,28 @@ class LoplatPlengiPlugin {
     return status;
   }
 
+
   static Future<String?> testRefreshPlaceForeground() async {
     final String? res =
-        await _channel.invokeMethod('TEST_refreshPlace_foreground');
+    await _channel.invokeMethod('TEST_refreshPlace_foreground');
+    return res;
+  }
+
+  static Future<int?> manual_refreshPlace_foreground() async {
+    final int? res =
+    await _channel.invokeMethod('manual_refreshPlace_foreground');
     return res;
   }
 
   static Future<String?> requestAlwaysAuthorization() async {
-        final String? res = await _channel.invokeMethod("requestAlwaysAuthorization");
-        return res;
+    final String? res = await _channel.invokeMethod(
+        "requestAlwaysAuthorization");
+    return res;
+  }
+
+  static Future<String?> requestAlwaysLocationAuthorization() async {
+    final String? res = await _channel.invokeMethod(
+        "requestAlwaysLocationAuthorization");
+    return res;
   }
 }
