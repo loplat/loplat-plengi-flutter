@@ -49,7 +49,8 @@ public class LoplatPlengiPlugin: NSObject, FlutterPlugin {
         result(Plengi.getEngineStatus().rawValue)
     case "manual_refreshPlace_foreground":
         result(Plengi.manual_refreshPlace_foreground().rawValue)
-
+    case "TEST_refreshPlace_foreground":
+        result(Plengi.manual_refreshPlace_foreground().rawValue)
     default:
       result(FlutterMethodNotImplemented)
     }
