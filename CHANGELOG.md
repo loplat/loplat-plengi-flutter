@@ -1,4 +1,8 @@
-## 1.0.8
+## 1.0.10
+
+* Update loplat iOS plengi v1.5.5-rc5
+
+## 1.0.9
 
 * Update loplat iOS plengi v1.5.5-rc2
 
