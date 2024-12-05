@@ -139,8 +139,6 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     _logs = List<String>.empty(growable: true);
-    await updateLogList();
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     ///  CHECK PERMISSION USING PERMISSION HANDLER
