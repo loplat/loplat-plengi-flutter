@@ -1,3 +1,7 @@
+## 1.0.13
+
+* Support iOS Ai-msg 
+
 ## 1.0.12
 
 * Update loplat iOS plengi v1.5.6-rc1
