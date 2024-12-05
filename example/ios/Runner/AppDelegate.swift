@@ -1,9 +1,11 @@
 import Flutter
 import UIKit
 import MiniPlengi
+import FirebaseCore
+import FirebaseMessaging
 
 @main
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate , MessagingDelegate{
     
     override func application(
         _ application: UIApplication,
@@ -11,13 +13,26 @@ import MiniPlengi
     ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
         // ********** 중간 생략 ********** //
+        
         Plengi.initialize(clientID: "loplat", clientSecret: "loplatsecret")
         
-        if Plengi.setDelegate(self) == .SUCCESS {
-            // setDelegate 등록 성공
-        } else {
-            // setDelegate 등록 실패
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        
+        // 노티피케이션 센터 델리게이트를 AppDelegate로 지정합니다.
+        UNUserNotificationCenter.current().delegate = self
+        
+        // 요청할 알람의 옵션을 지정합니다.
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        
+        // 사용자에게 권한을 요청합니다.
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { (granted, error) in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
         }
+
         if #available(iOS  10.0, *) {
             UNUserNotificationCenter.current().delegate = self
         }
@@ -33,11 +48,28 @@ import MiniPlengi
         completionHandler()
     }
     
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        NSLog("ryminaas fcmToken: \(fcmToken)")
+        Plengi.registerFcm(fcmToken: fcmToken)
+        Messaging.messaging().subscribe(toTopic: "loplat_test_77") { error in
+          print("Subscribed to weather topic")
+        }
+  
+
+    }
+    
     @available(iOS 10.0, *)
     override func userNotificationCenter(_ center: UNUserNotificationCenter,
                                          willPresent notification: UNNotification,
                                          withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .badge, .sound])
+    }
+    
+    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    override func application(_ :UIApplication, didFailToRegisterForRemoteNotificationsWithError: any Error){
+        print("rymins error: \(didFailToRegisterForRemoteNotificationsWithError)")
     }
 }
 

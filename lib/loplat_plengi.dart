@@ -183,4 +183,9 @@ class LoplatPlengiPlugin {
         "requestAlwaysLocationAuthorization");
     return res;
   }
+
+  static Future<String?> setFCMToken() async {
+    final String? res = await _channel.invokeMethod("setFCMToken");
+    return res;
+  }
 }
