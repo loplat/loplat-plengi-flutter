@@ -1,3 +1,7 @@
+## 1.0.15
+
+* Update loplat android plengi v.2.1.2.1
+
 ## 1.0.14
 
 * Support Android Ai-msg 
