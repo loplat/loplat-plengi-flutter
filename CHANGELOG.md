@@ -1,4 +1,8 @@
-## 1.0.13
+## 1.0.14
+
+* Support Android Ai-msg 
+
+* ## 1.0.13
 
 * Support iOS Ai-msg 
 

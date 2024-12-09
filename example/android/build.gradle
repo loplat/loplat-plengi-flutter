@@ -3,7 +3,7 @@ allprojects {
         google()
         mavenCentral()
         maven {
-            url "https://maven.loplat.com/artifactory/plengi"
+            url "https://maven.loplat.com/artifactory/plengi-aimessage"
         }
     }
 }
