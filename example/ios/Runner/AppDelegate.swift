@@ -49,7 +49,6 @@ import FirebaseMessaging
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        NSLog("ryminaas fcmToken: \(fcmToken)")
         Plengi.registerFcm(fcmToken: fcmToken)
         Messaging.messaging().subscribe(toTopic: "loplat_test_77") { error in
           print("Subscribed to weather topic")

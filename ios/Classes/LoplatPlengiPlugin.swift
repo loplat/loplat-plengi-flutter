@@ -29,14 +29,17 @@ public class LoplatPlengiPlugin: NSObject, FlutterPlugin {
         Plengi.requestAlwaysLocationAuthorization()
         result("success")
     case "setFCMToken":
-        if let args = call.arguments as? Dictionary<String, Any>,
-           let token = args["token"] as? String {
+        guard let arg = call.arguments as? [String] else {
+            result("fail")
+            return
+        }
+        if arg.count == 1 {
+            let token: String = arg[0]
             Plengi.registerFcm(fcmToken: token)
             result("success")
         } else {
             result("fail")
         }
-
     case "requestAlwaysAuthorization":
         Plengi.requestTrackingAuthorization {
             result("success")
