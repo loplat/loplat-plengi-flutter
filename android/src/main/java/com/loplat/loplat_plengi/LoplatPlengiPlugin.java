@@ -142,6 +142,8 @@ public class LoplatPlengiPlugin implements FlutterPlugin, MethodCallHandler {
       FlutterBackgroundExecutor flutterBackgroundExecutor = FlutterBackgroundExecutor.getInstance();
       flutterBackgroundExecutor.setListenerCallback(mContext, callbackHandle);
       result.success(true);
+    } else if (call.method.equals("setFCMToken")){
+      result.success("success");
     } else {
       result.notImplemented();
     }

@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'Plengi' , '1.5.6-rc1'
+  s.dependency 'Plengi' , '1.5.7'
   s.vendored_frameworks = 'Framework/MiniPlengi.framework'
   s.platform = :ios, '12.0'
 

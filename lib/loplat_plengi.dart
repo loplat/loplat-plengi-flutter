@@ -184,8 +184,9 @@ class LoplatPlengiPlugin {
     return res;
   }
 
-  static Future<String?> setFCMToken() async {
-    final String? res = await _channel.invokeMethod("setFCMToken");
+  static Future<String?> setFCMToken(String token) async {
+    final String? res = await _channel.invokeMapMethod(
+        "setFCMToken", ["token", token]);
     return res;
   }
 }
