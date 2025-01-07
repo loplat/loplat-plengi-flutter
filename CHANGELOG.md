@@ -1,3 +1,8 @@
+## 1.2.0
+
+* Update loplat iOS plengi v1.5.8
+* reduce background time
+
 ## 1.1.1
 
 * Support delay message
