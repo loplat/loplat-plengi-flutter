@@ -1,3 +1,7 @@
+## 1.2.1
+
+* BUGFIX ios setEchoCode error fixed
+
 ## 1.2.0
 
 * Update loplat iOS plengi v1.5.8

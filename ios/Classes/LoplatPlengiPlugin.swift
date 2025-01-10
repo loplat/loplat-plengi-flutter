@@ -63,8 +63,20 @@ public class LoplatPlengiPlugin: NSObject, FlutterPlugin {
         result(Plengi.manual_refreshPlace_foreground().rawValue)
     case "TEST_refreshPlace_foreground":
         result(Plengi.manual_refreshPlace_foreground().rawValue)
+    case "setEchoCode":
+        guard let arg = call.arguments as? [String] else {
+            result("fail")
+            return
+        }
+        if arg.count == 1 {
+            let token: String = arg[0]
+            Plengi.setEchoCode(echoCode: token)
+            result("success")
+        } else {
+            result("fail")
+        }
     default:
-      result(FlutterMethodNotImplemented)
+        result(FlutterMethodNotImplemented)
     }
   }
 }
