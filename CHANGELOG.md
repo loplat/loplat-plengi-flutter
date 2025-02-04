@@ -1,3 +1,7 @@
+## 1.2.2
+
+* Update loplat android plengi v.2.1.2.2
+
 ## 1.2.1
 
 * BUGFIX ios setEchoCode error fixed
