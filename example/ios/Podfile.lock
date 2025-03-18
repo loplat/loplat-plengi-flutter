@@ -2,12 +2,12 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - loplat_plengi (1.1.11-dev.1):
+  - loplat_plengi (0.0.1):
     - Flutter
-    - Plengi (= 1.5.8)
+    - Plengi (= 1.5.8-rc1)
   - permission_handler_apple (9.3.0):
     - Flutter
-  - Plengi (1.5.8)
+  - Plengi (1.5.8-rc1)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -43,13 +43,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  loplat_plengi: 3c22ace73b940c8f90667be4d749c148eae3ac00
-  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
-  Plengi: d1b7ebb935deff57f3cf7bf8896d7a09f608f8ef
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+  loplat_plengi: 30c4d32066950310250694b6042dd211b45bf6f6
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
+  Plengi: 693dedb34414f2fe957c554ac3fa0be298106a98
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  sqflite: c35dad70033b8862124f8337cc994a809fcd9fa3
 
 PODFILE CHECKSUM: 15a3f8f4c1c607abd99a459ba9b1968909b44c25
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
