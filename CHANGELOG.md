@@ -1,4 +1,8 @@
-## 1.2.6
+## 1.2.7
+
+* Update loplat android plengi v.2.1.2.7
+
+* ## 1.2.6
 
 * Update loplat android plengi v.2.1.2.5
 

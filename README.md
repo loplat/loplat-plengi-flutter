@@ -2,7 +2,7 @@
 loplat plengi(Place Engine) SDK plugin project.
 
 ## Supported platforms
-* Flutter Android(plengi v2.1.2.5)
+* Flutter Android(plengi v2.1.2.7)
 * Flutter iOS(MiniPlengi v1.5.8-rc1)
 
 |             | Android | iOS   |
@@ -45,7 +45,7 @@ allprojects {
 plugin이 정상적으로 동작하기 위해서 반드시 아래 지정된 버전만을 사용해야 합니다.
 
 ```groovy
-implementation 'com.loplat:placeengine:2.1.2.5'
+implementation 'com.loplat:placeengine:2.1.2.7'
 ```
 <br>
 
