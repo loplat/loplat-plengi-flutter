@@ -1,3 +1,7 @@
+## 1.2.8
+
+* Support ios Simulator - arm64 
+
 ## 1.2.7
 
 * Update loplat android plengi v.2.1.2.7

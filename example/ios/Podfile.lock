@@ -1,27 +1,36 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_custom_tabs_ios (2.4.0):
+    - Flutter
+  - in_app_review (2.0.0):
+    - Flutter
   - integration_test (0.0.1):
     - Flutter
   - loplat_plengi (0.0.1):
     - Flutter
-    - Plengi (= 1.5.8-rc1)
+    - Plengi (= 1.5.10)
   - permission_handler_apple (9.3.0):
     - Flutter
-  - Plengi (1.5.8-rc1)
+  - Plengi (1.5.10)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - url_launcher_ios (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
+  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - loplat_plengi (from `.symlinks/plugins/loplat_plengi/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -30,6 +39,10 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_custom_tabs_ios:
+    :path: ".symlinks/plugins/flutter_custom_tabs_ios/ios"
+  in_app_review:
+    :path: ".symlinks/plugins/in_app_review/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   loplat_plengi:
@@ -40,15 +53,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_custom_tabs_ios: 87333f36c33a5971502766aca2f6ff4823b09bda
+  in_app_review: 5596fe56fab799e8edb3561c03d053363ab13457
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
-  loplat_plengi: 30c4d32066950310250694b6042dd211b45bf6f6
+  loplat_plengi: 5cced88b889d350b188e6198fa826ce1fb5efc34
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
-  Plengi: 693dedb34414f2fe957c554ac3fa0be298106a98
+  Plengi: c0daa4eb477459365eb1a4f1d6fa5c6229388ce8
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   sqflite: c35dad70033b8862124f8337cc994a809fcd9fa3
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
 PODFILE CHECKSUM: 15a3f8f4c1c607abd99a459ba9b1968909b44c25
 
