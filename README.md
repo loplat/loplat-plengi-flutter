@@ -2,8 +2,8 @@
 loplat plengi(Place Engine) SDK plugin project.
 
 ## Supported platforms
-* Flutter Android(plengi v2.1.2.7)
-* Flutter iOS(MiniPlengi v1.5.8-rc1)
+* Flutter Android(plengi v2.1.2.8)
+* Flutter iOS(MiniPlengi v1.5.11)
 
 |             | Android | iOS   |
 |-------------|---------|-------|
@@ -22,6 +22,15 @@ dependencies:
 ## Examples
 아래는 plugin API를 사용하는 에시입니다.
 
+>💡주의 사항
+> example 앱 내부에 있는 google-servies.json, GoogleService-Info.plist 는 형태만 갖춘 임시 파일입니다. 자사 파이어베이스의 구성 파일을 사용해주세요.
+> 파이어베이스 프로젝트 만드는 방법은 아래 링크를 참고해주세요.
+> 
+>
+> [안드로이드 Firebase 시작하기](https://firebase.google.com/docs/projects/create-project)
+> [iOS Firebase 시작하기](https://firebase.google.com/docs/ios/setup?hl=ko&_gl=1*l96iyk*_up*MQ..*_ga*MzE4NzIzMDM1LjE3NTg2NzU5OTc.*_ga_CW55HF8NVT*czE3NTg2NzU5OTckbzEkZzAkdDE3NTg2NzU5OTckajYwJGwwJGgw#register-app)
+
+
 ### Android
 자세한 내용은 [로플랫 개발자 사이트](https://developers.loplat.com/android/)에 설명되어 있습니다.
 
@@ -34,7 +43,7 @@ allprojects {
   repositories {
     jcenter()
     mavenCentral()
-    maven { url "https://maven.loplat.com/artifactory/plengi"}
+    maven { url "https://maven.loplat.com/artifactory/plengi-aimessage"}
     google()
   }
 }
@@ -45,7 +54,7 @@ allprojects {
 plugin이 정상적으로 동작하기 위해서 반드시 아래 지정된 버전만을 사용해야 합니다.
 
 ```groovy
-implementation 'com.loplat:placeengine:2.1.2.7'
+implementation 'com.loplat:placeengine:2.1.2.8'
 ```
 <br>
 
