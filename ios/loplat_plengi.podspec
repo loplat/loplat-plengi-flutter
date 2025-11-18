@@ -7,11 +7,11 @@ Pod::Spec.new do |s|
    A Flutter plugin for getting commonly used locations on the filesystem.
                        DESC
   s.homepage         = 'https://developers.loplat.com/'
-  s.author           = { 'loplat' => 'rym@loplat.com' }
+  s.author           = { 'loplat' => 'pgj0320@loplat.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'Plengi' , '1.5.11'
+  s.dependency 'Plengi' , '1.5.12'
   s.vendored_frameworks = 'Framework/MiniPlengi.xcframework'
   s.platform = :ios, '12.0'
 
