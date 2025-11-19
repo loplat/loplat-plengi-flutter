@@ -1,3 +1,7 @@
+## 1.2.12
+
+* Update loplat iOS plengi v.1.5.13
+
 ## 1.2.10
 
 * Update loplat android plengi v.2.1.2.8.1
