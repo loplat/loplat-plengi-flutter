@@ -1,6 +1,15 @@
+## 1.2.13
+
+* Update loplat android plengi v2.1.2.8.2
+* Update loplat iOS Plengi v1.5.14
+
 ## 1.2.12
 
-* Update loplat iOS plengi v.1.5.13
+* Update loplat iOS Plengi v.1.5.13
+
+## 1.2.11
+
+* Redeploy iOS Plengi v1.5.12
 
 ## 1.2.10
 
