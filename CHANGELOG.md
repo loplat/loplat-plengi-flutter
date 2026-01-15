@@ -1,3 +1,6 @@
+## 1.2.16
+* iOS Plengi v1.5.15
+
 ## 1.2.15
 
 * Android Plengi v2.1.2.8.2

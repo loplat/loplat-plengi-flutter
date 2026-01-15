@@ -28,3 +28,5 @@
 .packages
 build/
 example/ios/Runner/GoogleService-Info.plist
+example/linux
+example/macos

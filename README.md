@@ -3,7 +3,7 @@ loplat plengi(Place Engine) SDK plugin project.
 
 ## Supported platforms
 * Flutter Android(plengi v2.1.2.8.2)
-* Flutter iOS(MiniPlengi v1.5.14)
+* Flutter iOS(MiniPlengi v1.5.15)
 
 |             | Android | iOS   |
 |-------------|---------|-------|
