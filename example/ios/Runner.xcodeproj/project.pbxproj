@@ -16,8 +16,6 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		F69B43612DF9477A00A2D025 /* MiniPlengi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69B43602DF9477A00A2D025 /* MiniPlengi.xcframework */; };
-		F69B43622DF9477A00A2D025 /* MiniPlengi.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F69B43602DF9477A00A2D025 /* MiniPlengi.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F6CE7D072D0FD53F00DABA5C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = F6CE7D062D0FD53F00DABA5C /* FirebaseCore */; };
 		F6CE7D092D0FD58D00DABA5C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F6CE7D082D0FD58D00DABA5C /* FirebaseMessaging */; };
 		F6F73B1A2CD0944800140186 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F73B182CD0944800140186 /* NotificationService.swift */; };
@@ -43,17 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F69B43632DF9477A00A2D025 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F69B43622DF9477A00A2D025 /* MiniPlengi.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F6FABA512CD0807C0096AA5B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,7 +77,6 @@
 		9F2183C104E64E7A3EA359C7 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		CAFAB542B1975209FFBF13C7 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D820D5B691EE26DADFA4EA65 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		F69B43602DF9477A00A2D025 /* MiniPlengi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MiniPlengi.xcframework; path = Pods/Plengi/MiniPlengi.xcframework; sourceTree = "<group>"; };
 		F6CE7CFA2D0FD1F200DABA5C /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6CE7CFD2D0FD3B900DABA5C /* firebase_core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6CE7D012D0FD3D500DABA5C /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,7 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6CE7D092D0FD58D00DABA5C /* FirebaseMessaging in Frameworks */,
-				F69B43612DF9477A00A2D025 /* MiniPlengi.xcframework in Frameworks */,
 				F6CE7D072D0FD53F00DABA5C /* FirebaseCore in Frameworks */,
 				5989FC8137019FA531BDF1DC /* Pods_Runner.framework in Frameworks */,
 			);
@@ -207,7 +192,6 @@
 		EC9276C5C00F54F26EFE989D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F69B43602DF9477A00A2D025 /* MiniPlengi.xcframework */,
 				F6CE7D012D0FD3D500DABA5C /* FirebaseCore.framework */,
 				F6CE7CFD2D0FD3B900DABA5C /* firebase_core.framework */,
 				F6CE7CFA2D0FD1F200DABA5C /* FirebaseCore.framework */,
@@ -261,7 +245,6 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				90E37D9206AAED19F9CB2F7C /* [CP] Embed Pods Frameworks */,
 				08851582E35701BE7F8CF79F /* [CP] Copy Pods Resources */,
-				F69B43632DF9477A00A2D025 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -583,7 +566,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -716,7 +699,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -767,7 +750,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
